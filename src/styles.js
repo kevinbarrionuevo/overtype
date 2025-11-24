@@ -332,6 +332,14 @@ export function generateStyles(options = {}) {
       text-decoration-thickness: 1px !important;
     }
 
+    /* Highlighted text */
+    .overtype-wrapper .overtype-preview mark {
+      background: var(--highlight-bg, rgba(255, 255, 0, 0.4)) !important;
+      color: var(--highlight, inherit) !important;
+      padding: 0 !important;
+      border-radius: 2px !important;
+    }
+
     /* Inline code */
     .overtype-wrapper .overtype-preview code {
       background: var(--code-bg, rgba(244, 211, 94, 0.4)) !important;

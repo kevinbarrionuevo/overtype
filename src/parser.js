@@ -190,6 +190,18 @@ export class MarkdownParser {
   }
 
   /**
+   * Parse highlighted text
+   * Uses double equals (==) to mark highlighted text
+   * @param {string} html - HTML with potential highlight markdown
+   * @returns {string} HTML with highlight styling
+   */
+  static parseHighlight(html) {
+    // Double equals highlight: ==text== (but not if part of 3+ equals)
+    html = html.replace(/(?<!=)==(?!=)(.+?)(?<!=)==(?!=)/g, '<mark><span class="syntax-marker">==</span>$1<span class="syntax-marker">==</span></mark>');
+    return html;
+  }
+
+  /**
    * Parse inline code
    * @param {string} html - HTML with potential code markdown
    * @returns {string} HTML with code styling
@@ -379,6 +391,7 @@ export class MarkdownParser {
         
         // Now parse other markdown in the link text (bold, italic, etc)
         processedLinkText = this.parseStrikethrough(processedLinkText);
+        processedLinkText = this.parseHighlight(processedLinkText);
         processedLinkText = this.parseBold(processedLinkText);
         processedLinkText = this.parseItalic(processedLinkText);
         
@@ -403,16 +416,17 @@ export class MarkdownParser {
   static parseInlineElements(text) {
     // Step 1: Identify and protect sanctuaries (code and links)
     const { protectedText, sanctuaries } = this.identifyAndProtectSanctuaries(text);
-    
+
     // Step 2: Parse other inline elements on protected text
     let html = protectedText;
     html = this.parseStrikethrough(html);
+    html = this.parseHighlight(html);
     html = this.parseBold(html);
     html = this.parseItalic(html);
-    
+
     // Step 3: Restore and transform sanctuaries
     html = this.restoreAndTransformSanctuaries(html, sanctuaries);
-    
+
     return html;
   }
 
