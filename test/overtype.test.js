@@ -102,6 +102,21 @@ console.log('\n📝 Parser Tests\n');
   });
 })();
 
+// Test: Highlighted text
+(() => {
+  const tests = [
+    { input: '==highlighted text==', expected: '<div><mark><span class="syntax-marker">==</span>highlighted text<span class="syntax-marker">==</span></mark></div>' },
+    { input: '==Hi== there, ==world==!', expected: '<div><mark><span class="syntax-marker">==</span>Hi<span class="syntax-marker">==</span></mark> there, <mark><span class="syntax-marker">==</span>world<span class="syntax-marker">==</span></mark>!</div>' },
+    { input: '===not highlighted===', expected: '<div>===not highlighted===</div>' },
+    { input: 'This will ===not=== highlight.', expected: '<div>This will ===not=== highlight.</div>' }
+  ];
+
+  tests.forEach(test => {
+    const actual = MarkdownParser.parseLine(test.input);
+    assert(htmlEqual(actual, test.expected), `Highlight: ${test.input}`, `Expected: ${test.expected}, Got: ${actual}`);
+  });
+})();
+
 // Test: Inline code
 (() => {
   const input = '`code`';
@@ -392,6 +407,11 @@ This is **bold** and *italic*.
       input: '`~also_not_strikethrough~`',
       expected: '<div><code><span class="syntax-marker">`</span>~also_not_strikethrough~<span class="syntax-marker">`</span></code></div>',
       description: 'Should not process single tilde strikethrough markers inside code'
+    },
+    {
+      input: '`==not_highlighted==`',
+      expected: '<div><code><span class="syntax-marker">`</span>==not_highlighted==<span class="syntax-marker">`</span></code></div>',
+      description: 'Should not process highlight markers inside code'
     }
   ];
 

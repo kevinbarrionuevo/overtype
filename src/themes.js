@@ -20,6 +20,8 @@ export const solar = {
     strong: '#ee964b',           // Sandy Brown - bold text
     em: '#f95738',               // Tomato - italic text
     del: '#ee964b',              // Sandy Brown - deleted text (same as strong)
+    highlight: 'inherit',        // Inherit text color for highlighted text
+    highlightBg: 'rgba(255, 255, 0, 0.4)', // Yellow with transparency
     link: '#0d3b66',             // Yale Blue - links
     code: '#0d3b66',             // Yale Blue - inline code
     codeBg: 'rgba(244, 211, 94, 0.4)', // Naples Yellow with transparency
@@ -59,6 +61,8 @@ export const cave = {
     strong: '#f6ae2d',           // Hunyadi Yellow - bold text
     em: '#9fcfec',               // Brighter blue - italic text
     del: '#f6ae2d',              // Hunyadi Yellow - deleted text (same as strong)
+    highlight: 'inherit',        // Inherit text color for highlighted text
+    highlightBg: 'rgba(255, 204, 0, 0.3)', // Darker yellow with transparency for dark theme
     link: '#9fcfec',             // Brighter blue - links
     code: '#c5dde8',             // Light blue-gray - inline code
     codeBg: '#1a232b',           // Very dark blue - code background
