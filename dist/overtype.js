@@ -192,6 +192,16 @@ var OverType = (() => {
       return html;
     }
     /**
+     * Parse highlighted text
+     * Uses double equals (==) to mark highlighted text
+     * @param {string} html - HTML with potential highlight markdown
+     * @returns {string} HTML with highlight styling
+     */
+    static parseHighlight(html) {
+      html = html.replace(new RegExp("(?<!=)==(?!=)(.+?)(?<!=)==(?!=)", "g"), '<mark><span class="syntax-marker">==</span>$1<span class="syntax-marker">==</span></mark>');
+      return html;
+    }
+    /**
      * Parse inline code
      * @param {string} html - HTML with potential code markdown
      * @returns {string} HTML with code styling
@@ -322,6 +332,7 @@ var OverType = (() => {
             }
           });
           processedLinkText = this.parseStrikethrough(processedLinkText);
+          processedLinkText = this.parseHighlight(processedLinkText);
           processedLinkText = this.parseBold(processedLinkText);
           processedLinkText = this.parseItalic(processedLinkText);
           const anchorName = `--link-${this.linkIndex++}`;
@@ -341,6 +352,7 @@ var OverType = (() => {
       const { protectedText, sanctuaries } = this.identifyAndProtectSanctuaries(text);
       let html = protectedText;
       html = this.parseStrikethrough(html);
+      html = this.parseHighlight(html);
       html = this.parseBold(html);
       html = this.parseItalic(html);
       html = this.restoreAndTransformSanctuaries(html, sanctuaries);
@@ -1702,6 +1714,10 @@ ${blockSuffix}` : suffix;
       // Tomato - italic text
       del: "#ee964b",
       // Sandy Brown - deleted text (same as strong)
+      highlight: "inherit",
+      // Inherit text color for highlighted text
+      highlightBg: "rgba(255, 255, 0, 0.4)",
+      // Yellow with transparency
       link: "#0d3b66",
       // Yale Blue - links
       code: "#0d3b66",
@@ -1766,6 +1782,10 @@ ${blockSuffix}` : suffix;
       // Brighter blue - italic text
       del: "#f6ae2d",
       // Hunyadi Yellow - deleted text (same as strong)
+      highlight: "inherit",
+      // Inherit text color for highlighted text
+      highlightBg: "rgba(255, 204, 0, 0.3)",
+      // Darker yellow with transparency for dark theme
       link: "#9fcfec",
       // Brighter blue - links
       code: "#c5dde8",
@@ -2151,6 +2171,14 @@ ${blockSuffix}` : suffix;
       text-decoration: line-through !important;
       text-decoration-color: var(--del, #ee964b) !important;
       text-decoration-thickness: 1px !important;
+    }
+
+    /* Highlighted text */
+    .overtype-wrapper .overtype-preview mark {
+      background: var(--highlight-bg, rgba(255, 255, 0, 0.4)) !important;
+      color: var(--highlight, inherit) !important;
+      padding: 0 !important;
+      border-radius: 2px !important;
     }
 
     /* Inline code */

@@ -18,6 +18,8 @@ export interface Theme {
     h1?: string;
     h2?: string;
     h3?: string;
+    highlight?: string;
+    highlightBg?: string;
     hoverBg?: string;
     hr?: string;
     link?: string;
